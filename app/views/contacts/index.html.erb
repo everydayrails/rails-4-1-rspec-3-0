@@ -1,0 +1,34 @@
+<h1>Contacts</h1>
+
+<% if not @contacts.empty? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @contacts.each do |contact| %>
+        <tr>
+          <td><%= link_to contact.name, contact %></td>
+          <td><%= contact.email %></td>
+          <td>
+            <%= link_to 'Edit', edit_contact_path(contact) %>
+            <%= link_to 'Destroy', contact, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>
+    No contacts found.
+  </p>
+<% end %>
+
+<div>
+  <%= link_to 'New Contact', new_contact_path %>
+</div>

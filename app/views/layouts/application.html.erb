@@ -8,7 +8,14 @@
 </head>
 <body>
 
-<%= yield %>
+  <div>
+    <% ('A'..'Z').each do |letter| %>
+      <%= link_to_unless_current letter, contacts_path(letter: letter), class: 'btn' %>
+    <% end %>
+    <%= link_to 'All', contacts_path, class: 'btn' %>
+  </div>
+
+  <%= yield %>
 
 </body>
 </html>
