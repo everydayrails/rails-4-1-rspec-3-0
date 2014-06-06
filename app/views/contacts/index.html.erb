@@ -6,7 +6,9 @@
       <tr>
         <th>Name</th>
         <th>Email</th>
-        <th></th>
+        <% if current_user %>
+          <th></th>
+        <% end %>
       </tr>
     </thead>
 
@@ -15,10 +17,12 @@
         <tr>
           <td><%= link_to contact.name, contact %></td>
           <td><%= contact.email %></td>
-          <td>
-            <%= link_to 'Edit', edit_contact_path(contact) %>
-            <%= link_to 'Destroy', contact, method: :delete, data: { confirm: 'Are you sure?' } %>
-          </td>
+          <% if current_user %>
+            <td>
+              <%= link_to 'Edit', edit_contact_path(contact) %>
+              <%= link_to 'Destroy', contact, method: :delete, data: { confirm: 'Are you sure?' } %>
+            </td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>
@@ -29,6 +33,8 @@
   </p>
 <% end %>
 
-<div>
-  <%= link_to 'New Contact', new_contact_path %>
-</div>
+<% if current_user %>
+  <div>
+      <%= link_to 'New Contact', new_contact_path %>
+  </div>
+<% end %>

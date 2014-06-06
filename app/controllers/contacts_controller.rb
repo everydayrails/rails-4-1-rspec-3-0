@@ -1,4 +1,5 @@
 class ContactsController < ApplicationController
+  before_action :authenticate, except: [:index, :show]
   before_action :set_contact, only: [:show, :edit, :update, :destroy]
 
   # GET /contacts

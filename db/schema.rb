@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140605002008) do
+ActiveRecord::Schema.define(version: 20140606035847) do
 
   create_table "contacts", force: true do |t|
     t.string   "firstname"
@@ -30,5 +30,12 @@ ActiveRecord::Schema.define(version: 20140605002008) do
   end
 
   add_index "phones", ["contact_id"], name: "index_phones_on_contact_id"
+
+  create_table "users", force: true do |t|
+    t.string   "email"
+    t.string   "password_digest"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
