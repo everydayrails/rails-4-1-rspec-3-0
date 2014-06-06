@@ -3,14 +3,18 @@
 <table>
   <tr>
     <th>Email</th>
+    <th>Admin?</th>
   </tr>
   <% @users.each do |user| %>
     <tr>
       <td><%= user.email %>
+      <td><%= user.admin? %>
     </tr>
   <% end %>
 </table>
 
-<div>
-  <%= link_to 'New User', new_user_path %>
-</div>
+<% if administrator? %>
+  <div>
+    <%= link_to 'New User', new_user_path %>
+  </div>
+<% end %>

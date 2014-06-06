@@ -25,6 +25,12 @@
       <%= f.label :password_confirmation %>
       <%= f.password_field :password_confirmation %>
     </div>
+    <div>
+      <%= f.label :admin do %>
+        <%= f.check_box :admin %>
+        Administrator?
+      <% end %>
+    </div>
   </div>
 
   <div class='form-actions'>
