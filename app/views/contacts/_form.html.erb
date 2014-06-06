@@ -23,6 +23,13 @@
     <%= f.label :email %><br>
     <%= f.text_field :email %>
   </div>
+  <%= f.fields_for :phones do |builder| %>
+    <div class="field">
+      <%= builder.hidden_field :phone_type %>
+      <%= builder.label :phone, builder.object.phone_type %>
+      <%= builder.text_field :phone %>
+    </div>
+  <% end %>
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -6,6 +6,19 @@
   <%= @contact.email %>
 </p>
 
+<% unless @contact.phones.empty? %>
+  <h2>Phones</h2>
+
+  <ul>
+    <% @contact.phones.each do |phone| %>
+      <li>
+        <%= phone.phone_type %>
+        <%= phone.phone %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
 <div>
   <%= link_to 'Edit', edit_contact_path(@contact) %> |
   <%= link_to 'Back', contacts_path %>
