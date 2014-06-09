@@ -1,21 +1,85 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ContactsRspec3Rails41</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BigCo Company Directory</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-  <div>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">BigCo, Inc.</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><%= link_to "Home", root_path %></li>
+        <li><%= link_to "About Us", '#about_us', data: {toggle: 'modal', target: '#about_us' } %></li>
+        <li><%= link_to "Contact Us", '#' %></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <% if current_user %>
+          <% if administrator? %>
+            <li><%= link_to 'Users', users_path %></li>
+          <% end %>
+          <li><%= link_to 'Log Out', logout_path %></li>
+        <% else %>
+          <li><%= link_to 'Log In', new_session_path %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="btn-group btn-group-justified">
     <% ('A'..'Z').each do |letter| %>
-      <%= link_to_unless_current letter, contacts_path(letter: letter), class: 'btn' %>
+      <%= link_to letter, contacts_path(letter: letter), class: 'btn btn-default' %>
     <% end %>
-    <%= link_to 'All', contacts_path, class: 'btn' %>
+    <%= link_to 'All', contacts_path, class: 'btn btn-default' %>
   </div>
 
+  <% flash.each do |name, msg| %>
+    <div class='alert alert-<%= name == "notice" ? "success" : "error" %>'>
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= msg %>
+    </div>
+  <% end %>
+
   <%= yield %>
+</div>
+
+<div class="modal fade" id="about_us">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">About BigCo, Inc.</h4>
+      </div>
+      <div class="modal-body">
+        <p>BigCo produces the finest widgets in all the land.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 <h1>Users</h1>
 
-<table>
+<table class='table table-striped table-hover'>
   <tr>
     <th>Email</th>
     <th>Admin?</th>
@@ -14,7 +14,7 @@
 </table>
 
 <% if administrator? %>
-  <div>
-    <%= link_to 'New User', new_user_path %>
+  <div class='form-actions'>
+    <%= link_to 'New User', new_user_path, class: 'btn btn-primary' %>
   </div>
 <% end %>

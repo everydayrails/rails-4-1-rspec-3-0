@@ -13,19 +13,19 @@
   <% end %>
 
   <div class='form-inputs'>
-    <div class='field'>
-      <%= f.label :email %>
+    <div class='form-group'>
+      <%= f.label :email %><br>
       <%= f.text_field :email %>
     </div>
-    <div id='password'>
-      <%= f.label :password %>
+    <div class='form-group' id='password'>
+      <%= f.label :password %><br>
       <%= f.password_field :password %>
     </div>
-    <div id='password_confirmation'>
-      <%= f.label :password_confirmation %>
+    <div class='form-group' id='password_confirmation'>
+      <%= f.label :password_confirmation %><br>
       <%= f.password_field :password_confirmation %>
     </div>
-    <div>
+    <div class='form-group'>
       <%= f.label :admin do %>
         <%= f.check_box :admin %>
         Administrator?

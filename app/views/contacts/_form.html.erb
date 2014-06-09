@@ -11,26 +11,28 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :firstname %><br>
-    <%= f.text_field :firstname %>
-  </div>
-  <div class="field">
-    <%= f.label :lastname %><br>
-    <%= f.text_field :lastname %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br>
-    <%= f.text_field :email %>
-  </div>
-  <%= f.fields_for :phones do |builder| %>
-    <div class="field">
-      <%= builder.hidden_field :phone_type %>
-      <%= builder.label :phone, builder.object.phone_type %>
-      <%= builder.text_field :phone %>
+  <div class='form-inputs'>
+    <div class="form-group">
+      <%= f.label :firstname %><br>
+      <%= f.text_field :firstname %>
     </div>
-  <% end %>
-  <div class="actions">
-    <%= f.submit %>
+    <div class="form-group">
+      <%= f.label :lastname %><br>
+      <%= f.text_field :lastname %>
+    </div>
+    <div class="form-group">
+      <%= f.label :email %><br>
+      <%= f.text_field :email %>
+    </div>
+    <%= f.fields_for :phones do |builder| %>
+      <div class="form-group">
+        <%= builder.hidden_field :phone_type %>
+        <%= builder.label :phone, "#{builder.object.phone_type.capitalize} phone" %><br>
+        <%= builder.text_field :phone %>
+      </div>
+    <% end %>
+  </div>
+  <div class="form-actions">
+    <%= f.submit nil, class: 'btn btn-primary' %>
   </div>
 <% end %>

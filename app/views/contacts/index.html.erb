@@ -1,7 +1,7 @@
 <h1>Contacts</h1>
 
 <% if not @contacts.empty? %>
-  <table>
+  <table class='table table-striped table-hover'>
     <thead>
       <tr>
         <th>Name</th>
@@ -18,9 +18,9 @@
           <td><%= link_to contact.name, contact %></td>
           <td><%= contact.email %></td>
           <% if current_user %>
-            <td>
-              <%= link_to 'Edit', edit_contact_path(contact) %>
-              <%= link_to 'Destroy', contact, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <td style='text-align:right;'>
+              <%= link_to 'Edit', edit_contact_path(contact), class: 'btn btn-default btn-xs' %>
+              <%= link_to 'Destroy', contact, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-xs btn-danger' %>
             </td>
           <% end %>
         </tr>
@@ -34,7 +34,7 @@
 <% end %>
 
 <% if current_user %>
-  <div>
-      <%= link_to 'New Contact', new_contact_path %>
+  <div class='form-actions'>
+    <%= link_to 'New Contact', new_contact_path, class: 'btn btn-primary' %>
   </div>
 <% end %>
