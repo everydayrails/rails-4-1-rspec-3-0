@@ -41,13 +41,13 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'bootstrap-sass', '~> 3.1.1'
 
 group :development, :test do
-  gem "rspec-rails", "~> 3.0.1"
+  gem "rspec-rails", "~> 3.0.2"
   gem "factory_girl_rails", "~> 4.4.1"
 end
 
 group :test do
   gem "faker", "~> 1.3.0"
-  gem "capybara", "~> 2.3.0"
+  gem "capybara", "~> 2.4.1"
   gem "database_cleaner", "~> 1.3.0"
   gem "launchy", "~> 2.4.2"
   gem "selenium-webdriver", "~> 2.42.0"
