@@ -5,33 +5,13 @@ describe Contact do
     expect(build(:contact)).to be_valid
   end
 
-  it "is invalid without a firstname" do
-    contact = build(:contact, firstname: nil)
-    contact.valid?
-    expect(contact.errors[:firstname]).to include("can't be blank")
-  end
-
-  it "is invalid without a lastname" do
-    contact = build(:contact, lastname: nil)
-    contact.valid?
-    expect(contact.errors[:lastname]).to include("can't be blank")
-  end
-
-  it "is invalid without an email address" do
-    contact = build(:contact, email: nil)
-    contact.valid?
-    expect(contact.errors[:email]).to include("can't be blank")
-  end
-
-  it "is invalid with a duplicate email address" do
-    create(:contact, email: 'aaron@example.com')
-    contact = build(:contact, email: 'aaron@example.com')
-    contact.valid?
-    expect(contact.errors[:email]).to include('has already been taken')
-  end
+  it { should validate_presence_of :firstname }
+  it { should validate_presence_of :lastname }
+  it { should validate_presence_of :email }
+  it { should validate_uniqueness_of(:email) }
 
   it "returns a contact's full name as a string" do
-    contact = build(:contact,
+    contact = build_stubbed(:contact,
       firstname: 'Jane',
       lastname: 'Smith'
     )

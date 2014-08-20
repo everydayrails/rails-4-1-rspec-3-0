@@ -1,6 +1,24 @@
 require 'rails_helper'
 
 describe ContactsController do
+  let(:admin) { build_stubbed(:admin) }
+  let(:user) { build_stubbed(:user) }
+
+  let(:contact) do
+    create(:contact, firstname: 'Lawrence', lastname: 'Smith')
+  end
+
+  let(:phones) do
+    [
+      attributes_for(:phone, phone_type: "home"),
+      attributes_for(:phone, phone_type: "office"),
+      attributes_for(:phone, phone_type: "mobile")
+    ]
+  end
+
+  let(:valid_attributes) { attributes_for(:contact) }
+  let(:invalid_attributes) { attributes_for(:invalid_contact) }
+
   shared_examples_for 'public access to contacts' do
     describe 'GET #index' do
       context 'with params[:letter]' do
@@ -33,15 +51,25 @@ describe ContactsController do
     end
 
     describe 'GET #show' do
-      it "assigns the requested contact to @contact" do
-        contact = create(:contact)
+      let(:contact) { build_stubbed(:contact,
+        firstname: 'Lawrence', lastname: 'Smith') }
+
+      before :each do
+        allow(Contact).to receive(:persisted?).and_return(true)
+        allow(Contact).to \
+          receive(:order).with('lastname, firstname').and_return([contact])
+        allow(Contact).to \
+          receive(:find).with(contact.id.to_s).and_return(contact)
+        allow(Contact).to receive(:save).and_return(true)
+
         get :show, id: contact
+      end
+
+      it "assigns the requested contact to @contact" do
         expect(assigns(:contact)).to eq contact
       end
 
       it "renders the :show template" do
-        contact = create(:contact)
-        get :show, id: contact
         expect(response).to render_template :show
       end
     end
@@ -133,7 +161,8 @@ describe ContactsController do
 
       context "valid attributes" do
         it "locates the requested @contact" do
-          patch :update, id: @contact, contact: attributes_for(:contact)
+          allow(contact).to receive(:update).with(valid_attributes.stringify_keys) { true }
+          patch :update, id: @contact, contact: valid_attributes
           expect(assigns(:contact)).to eq @contact
         end
 
@@ -155,24 +184,20 @@ describe ContactsController do
       end
 
       context "invalid attributes" do
+        before :each do
+          allow(contact).to receive(:update).with(invalid_attributes.stringify_keys) { false }
+          patch :update, id: contact, contact: invalid_attributes
+        end
+
         it "locates the requested @contact" do
-          patch :update, id: @contact, contact: attributes_for(:invalid_contact)
-          expect(assigns(:contact)).to eq @contact
+          expect(assigns(:contact)).to eq contact
         end
 
         it "does not change the contact's attributes" do
-          patch :update, id: @contact,
-            contact: attributes_for(:contact,
-              firstname: 'Larry',
-              lastname: nil
-            )
-          @contact.reload
-          expect(@contact.firstname).to_not eq 'Larry'
-          expect(@contact.lastname).to eq 'Smith'
+          expect(assigns(:contact).reload.attributes).to eq contact.attributes
         end
 
         it "re-renders the edit method" do
-          patch :update, id: @contact, contact: attributes_for(:invalid_contact)
           expect(response).to render_template :edit
         end
       end
@@ -184,8 +209,9 @@ describe ContactsController do
       end
 
       it "deletes the contact" do
+        contact
         expect{
-          delete :destroy, id: @contact
+          delete :destroy, id: contact
         }.to change(Contact,:count).by(-1)
       end
 
@@ -198,7 +224,7 @@ describe ContactsController do
 
   describe "administrator access" do
     before :each do
-      set_user_session create(:admin)
+      allow(controller).to receive(:current_user).and_return(admin)
     end
 
     it_behaves_like 'public access to contacts'
@@ -207,7 +233,7 @@ describe ContactsController do
 
   describe "user access" do
     before :each do
-      set_user_session create(:user)
+      allow(controller).to receive(:current_user).and_return(user)
     end
 
     it_behaves_like 'public access to contacts'
