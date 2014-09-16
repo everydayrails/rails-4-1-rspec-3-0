@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @news_release.title %>
+</p>
+
+<p>
+  <strong>Released on:</strong>
+  <%= @news_release.released_on %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @news_release.body %>
+</p>
+
+<%= link_to 'Edit', edit_news_release_path(@news_release) %> |
+<%= link_to 'Back', news_releases_path %>

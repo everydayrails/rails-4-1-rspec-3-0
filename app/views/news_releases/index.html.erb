@@ -1,0 +1,11 @@
+<h1>News releases</h1>
+
+<ul>
+  <% @news_releases.each do |news_release| %>
+    <li>
+      <%= link_to news_release.title_with_date, news_release %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to 'Add News Release', new_news_release_path, class: 'btn btn-primary' %>
