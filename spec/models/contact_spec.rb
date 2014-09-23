@@ -76,7 +76,7 @@ describe Contact do
 
     context "with non-matching letters" do
       it "omits results that do not match" do
-        expect(Contact.by_letter("J")).to_not include @smith
+        expect(Contact.by_letter("J")).not_to include @smith
       end
     end
   end
