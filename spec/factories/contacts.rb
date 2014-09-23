@@ -1,5 +1,3 @@
-require 'faker'
-
 FactoryGirl.define do
   factory :contact do
     firstname { Faker::Name.first_name }
