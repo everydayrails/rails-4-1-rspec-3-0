@@ -106,7 +106,7 @@ describe ContactsController do
           expect{
             post :create,
               contact: attributes_for(:invalid_contact)
-          }.to_not change(Contact, :count)
+          }.not_to change(Contact, :count)
         end
 
         it "re-renders the :new template" do
@@ -153,7 +153,7 @@ describe ContactsController do
               firstname: 'Larry',
               lastname: nil)
           @contact.reload
-          expect(@contact.firstname).to_not eq('Larry')
+          expect(@contact.firstname).not_to eq('Larry')
           expect(@contact.lastname).to eq('Smith')
         end
 
@@ -288,7 +288,7 @@ describe ContactsController do
           expect{
             post :create,
               contact: attributes_for(:invalid_contact)
-          }.to_not change(Contact, :count)
+          }.not_to change(Contact, :count)
         end
 
         it "re-renders the :new template" do
@@ -335,7 +335,7 @@ describe ContactsController do
               firstname: 'Larry',
               lastname: nil)
           @contact.reload
-          expect(@contact.firstname).to_not eq('Larry')
+          expect(@contact.firstname).not_to eq('Larry')
           expect(@contact.lastname).to eq('Smith')
         end
 
