@@ -110,9 +110,9 @@ describe ContactsController do
       context "with invalid attributes" do
         it "does not save the new contact in the database" do
           expect{
-            post :create, contact:
-              attributes_for(:invalid_contact)
-          }.to_not change(Contact, :count)
+            post :create,
+              contact: attributes_for(:invalid_contact)
+          }.not_to change(Contact, :count)
         end
 
         it "re-renders the :new template" do
@@ -133,7 +133,8 @@ describe ContactsController do
 
       context "valid attributes" do
         it "locates the requested @contact" do
-          patch :update, id: @contact, contact: attributes_for(:contact)
+          patch :update, id: @contact,
+            contact: attributes_for(:contact)
           expect(assigns(:contact)).to eq @contact
         end
 
@@ -167,8 +168,8 @@ describe ContactsController do
               lastname: nil
             )
           @contact.reload
-          expect(@contact.firstname).to_not eq 'Larry'
-          expect(@contact.lastname).to eq 'Smith'
+          expect(@contact.firstname).not_to eq('Larry')
+          expect(@contact.lastname).to eq('Smith')
         end
 
         it "re-renders the edit method" do
