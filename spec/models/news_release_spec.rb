@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe NewsRelease, type: :model do
-  it { should validate_presence_of :released_on }
-  it { should validate_presence_of :title }
-  it { should validate_presence_of :body }
+  it { is_expected.to validate_presence_of :released_on }
+  it { is_expected.to validate_presence_of :title }
+  it { is_expected.to validate_presence_of :body }
 
   it "returns the formatted date and title as a string" do
     news_release = NewsRelease.new(
