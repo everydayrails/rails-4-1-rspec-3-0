@@ -29,15 +29,16 @@ RSpec.configure do |config|
   # Include custom login macros
   config.include LoginMacros
 
-  # Set config.use_transactional_fixtures to false
-  config.use_transactional_fixtures = false
-
+  # Configure DatabaseCleaner to reset data between tests
   config.before(:suite) do
-    DatabaseCleaner.strategy = :truncation
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with :truncation
   end
 
-  config.before(:each) do
-    DatabaseCleaner.start
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
   end
 
   config.after(:each) do
