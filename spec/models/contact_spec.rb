@@ -5,10 +5,10 @@ describe Contact do
     expect(build(:contact)).to be_valid
   end
 
-  it { should validate_presence_of :firstname }
-  it { should validate_presence_of :lastname }
-  it { should validate_presence_of :email }
-  it { should validate_uniqueness_of(:email) }
+  it { is_expected.to validate_presence_of :firstname }
+  it { is_expected.to validate_presence_of :lastname }
+  it { is_expected.to validate_presence_of :email }
+  it { is_expected.to validate_uniqueness_of(:email) }
 
   it "returns a contact's full name as a string" do
     contact = build_stubbed(:contact,
