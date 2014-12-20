@@ -8,7 +8,7 @@ feature "News releases" do
       visit root_path
       click_link "News"
 
-      expect(page).to_not have_content "BigCo switches to Rails"
+      expect(page).not_to have_content "BigCo switches to Rails"
       click_link "Add News Release"
 
       fill_in "Date", with: "2013-07-29"
@@ -29,8 +29,8 @@ feature "News releases" do
       visit root_path
       click_link "News"
 
-      expect(page).to_not have_content "Today, BigCo's CFO announced record growth."
-      expect(page).to_not have_content 'Add News Release'
+      expect(page).not_to have_content "Today, BigCo's CFO announced record growth."
+      expect(page).not_to have_content 'Add News Release'
 
       click_link "2013-08-01: Record profits for BigCo!"
 
