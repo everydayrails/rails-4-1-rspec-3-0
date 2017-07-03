@@ -15,7 +15,7 @@ describe Contact do
     #exec
     expect(contact.errors[:firstname]).to include("can't be blank")
   end
-  
+
   it 'is invalid without lastname' do
     contact = Contact.create(firstname: nil)
     
@@ -46,5 +46,17 @@ describe Contact do
     
     expect(contact.name).to eq 'Bogdan Powstaniec'
   end
-  
+  describe '.by_letter' do
+    smith = Contact.create(firstname: "John", lastname: 'Smith', email: "12@gc.com")
+    johnson = Contact.create(firstname: 'Carl', lastname: "Johnson", email: '14@gc.com')
+    jones = Contact.create(firstname: "Adyan", lastname: 'Jones', email: '13@gc.com')
+    
+    context 'returns a sorted array of result that match' do
+      it { expect(Contact.by_letter("J")).to eq [johnson, jones] }
+    end
+
+    context 'omits results that do not match' do
+      it { expect(Contact.by_letter("J")).not_to include smith}
+    end
+  end
 end
