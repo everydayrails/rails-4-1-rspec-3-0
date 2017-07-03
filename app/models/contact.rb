@@ -5,10 +5,10 @@ class Contact < ActiveRecord::Base
   validates :firstname, presence: true
   validates :lastname, presence: true
   validates :email, presence: true, uniqueness: true
-  validates :phones, length: { is: 3 }
+  # validates :phones, length: { is: 3 }
 
   def name
-    [firstname, lastname].join(' ')
+    "#{firstname} #{lastname}"
   end
 
   def self.by_letter(letter)

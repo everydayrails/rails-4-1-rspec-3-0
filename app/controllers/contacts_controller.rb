@@ -21,7 +21,7 @@ class ContactsController < ApplicationController
   def new
     @contact = Contact.new
     %w(home office mobile).each do |phone|
-      @contact.phones.build(phone_type: phone)
+      @contact.phones.new(phone_type: phone)
     end
   end
 

@@ -1,56 +1,62 @@
 require 'rails_helper'
 
 describe Contact do
-  it "has a valid factory" do
-    expect(build(:contact)).to be_valid
+  it 'is valid with firstname, lastname and email' do
+    contact = Contact.create(firstname: 'Adam', lastname: "Januszowski", email: 'yey@g.com')
+
+    expect(contact).to be_valid  
+  end
+  
+  it 'is invalid without firstname' do
+    #setup
+    contact = Contact.create(firstname: nil)
+    #association
+    contact.valid?
+    #exec
+    expect(contact.errors[:firstname]).to include("can't be blank")
   end
 
-  it { is_expected.to validate_presence_of :firstname }
-  it { is_expected.to validate_presence_of :lastname }
-  it { is_expected.to validate_presence_of :email }
-  it { is_expected.to validate_uniqueness_of(:email) }
-
-  it "returns a contact's full name as a string" do
-    contact = build_stubbed(:contact,
-      firstname: 'Jane',
-      lastname: 'Smith'
-    )
-    expect(contact.name).to eq 'Jane Smith'
+  it 'is invalid without lastname' do
+    contact = Contact.create(firstname: nil)
+    
+    contact.valid?
+    
+    expect(contact.errors[:lastname]).to include("can't be blank")
   end
 
-  it "has three phone numbers" do
-    expect(create(:contact).phones.count).to eq 3
+  it 'is invalid without email' do
+    contact = Contact.create(email: nil)
+
+    contact.valid?
+
+    expect(contact.errors[:email]).to include("can't be blank")
+  end  
+
+  it 'is invalid with a duplicate email address' do
+    Contact.create(firstname: 'Joe', lastname: 'Pesco', email: 'janusz@gmail.com')
+    contact = Contact.create(firstname: 'Hxc', lastname: 'Ps', email: 'janusz@gmail.com')
+
+    contact.valid?
+
+    expect(contact.errors[:email]).to include('has already been taken')
   end
 
-  describe "filter last name by letter" do
-    before :each do
-      @smith = create(:contact,
-        firstname: 'John',
-        lastname: 'Smith',
-        email: 'jsmith@example.com'
-      )
-      @jones = create(:contact,
-        firstname: 'Tim',
-        lastname: 'Jones',
-        email: 'tjones@example.com'
-      )
-      @johnson = create(:contact,
-        firstname: 'John',
-        lastname: 'Johnson',
-        email: 'jjohnson@example.com'
-      )
+  it 'returns a contact full name as a string' do
+    contact = Contact.create(firstname: "Bogdan", lastname: "Powstaniec", email: "kpo@sa.com")
+    
+    expect(contact.name).to eq 'Bogdan Powstaniec'
+  end
+  describe '.by_letter' do
+    smith = Contact.create(firstname: "John", lastname: 'Smith', email: "12@gc.com")
+    johnson = Contact.create(firstname: 'Carl', lastname: "Johnson", email: '14@gc.com')
+    jones = Contact.create(firstname: "Adyan", lastname: 'Jones', email: '13@gc.com')
+    
+    context 'returns a sorted array of result that match' do
+      it { expect(Contact.by_letter("J")).to eq [johnson, jones] }
     end
 
-    context "with matching letters" do
-      it "returns a sorted array of results that match" do
-        expect(Contact.by_letter("J")).to eq [@johnson, @jones]
-      end
-    end
-
-    context "with non-matching letters" do
-      it "omits results that do not match" do
-        expect(Contact.by_letter("J")).not_to include @smith
-      end
+    context 'omits results that do not match' do
+      it { expect(Contact.by_letter("J")).not_to include smith}
     end
   end
 end
