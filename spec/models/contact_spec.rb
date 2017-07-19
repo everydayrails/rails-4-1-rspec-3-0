@@ -1,7 +1,12 @@
 require 'rails_helper'
 
 describe Contact do
-  # 姓と名とメールがあれば有効な状態であること
+  # 有効なファクトリを持つこと
+  it 'has a valid factory' do
+    expect(FactoryGirl.build(:contact)).to be_valid
+  end
+
+  # 姓と名とメールがあれば有効な状態であること
   it 'is valid with a firstname, lastname and email' do
    contact = Contact.new(
       firstname: 'Aaron',
@@ -52,17 +57,17 @@ describe Contact do
 
   describe 'filter last name by letter' do
     before do
-        smith = Contact.create(
+        @smith = Contact.create(
           firstname: 'John',
           lastname: 'Smith',
           email: 'jsmith@example.com'
         )
-        jones = Contact.create(
+        @jones = Contact.create(
           firstname: 'Tim',
           lastname: 'Jones',
           email: 'tjones@example.com'
         )
-        johnson = Contact.create(
+        @johnson = Contact.create(
           firstname: 'John',
           lastname: 'Johnson',
           email: 'jjohnson@example.com'
@@ -71,14 +76,14 @@ describe Contact do
     context 'matching letters' do
       # マッチした結果をソート済みの配列として返すこと
       it 'returns a sorted array of results that match' do
-        expect(Contact.by_letter('J')).to eq [johnson, jones]
+        expect(Contact.by_letter('J')).to eq [@johnson, @jones]
       end
     end
 
     context 'non-matching letters' do
       # マッチしなかったものは結果に含まれないこと
       it 'omits results that do not match' do
-        expect(Contact.by_letter('J')).not_to include smith
+        expect(Contact.by_letter('J')).not_to include @smith
       end
     end
   end
