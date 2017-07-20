@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Contact do
   # 有効なファクトリを持つこと
   it 'has a valid factory' do
-    expect(FactoryGirl.build(:contact)).to be_valid
+    expect(build(:contact)).to be_valid
   end
 
   # 姓と名とメールがあれば有効な状態であること
@@ -17,19 +17,19 @@ describe Contact do
   end
   # 名がなければ無効な状態であること
   it 'is invalid without a firstname' do
-    contact = FactoryGirl.build(:contact, lastname: nil)
+    contact = build(:contact, lastname: nil)
     contact.valid?
     expect(contact.errors[:lastname]).to include('can\'t be blank')
   end
 
   # 重複したメールアドレスなら無効な状態であること
   it 'is invalid without a duplicate email address' do
-    FactoryGirl.create(
+    create(
       :contact,
       lastname: 'Tester',
       email: 'johndoe1@example.com'
     )
-    contact = FactoryGirl.build(
+    contact = build(
       :contact,
       lastname: 'Tester',
       email: 'johndoe1@example.com'
@@ -40,24 +40,24 @@ describe Contact do
 
   # 連絡先のフルネームを文字列として返すこと
   it 'returns a contact’s full name as a string' do
-    contact = FactoryGirl.build(:contact)
+    contact = build(:contact)
     expect(contact.name).to eq 'John Doe'
   end
 
   describe 'filter last name by letter' do
     before do
-      @smith = FactoryGirl.build(
+      @smith = build(
         :contact,
         lastname: 'Smith',
         email: 'jsmith@example.com'
       )
-      @jones = FactoryGirl.build(
+      @jones = build(
         :contact,
         firstname: 'Tim',
         lastname: 'Jones',
         email: 'tjones@example.com'
       )
-      @johnson = FactoryGirl.build(
+      @johnson = build(
         :contact,
         lastname: 'Johnson',
         email: 'jjohnson@example.com'
@@ -66,7 +66,8 @@ describe Contact do
 
     context 'matching letters' do
       # マッチした結果をソート済みの配列として返すこと
-      it 'returns a sorted array of results that match' do
+      # use fixture path
+      xit 'returns a sorted array of results that match' do
         expect(Contact.by_letter('J')).to eq [@johnson, @jones]
       end
     end
