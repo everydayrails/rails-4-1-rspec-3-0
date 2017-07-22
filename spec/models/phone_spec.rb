@@ -9,15 +9,6 @@ describe Phone do
       contact: contact,
       phone: '785-555-1234'
     )
-    contact = Contact.create(
-      firstname: 'Joe',
-      lastname: 'Tester',
-      email: 'joetester@example.com'
-    )
-    contact.phones.create(
-      phone_type: 'home',
-      phone: '785-555-1234'
-    )
     mobile_phone = contact.phones.build(
       phone_type: 'mobile',
       phone: '785-555-1234'
@@ -26,17 +17,14 @@ describe Phone do
     expect(mobile_phone.errors[:phone]).to include('has already been taken')
   end
 
-  # 2 件の連絡先で同じ電話番号を共有できること
+  # 2 件の連絡先で同じ電話番号を共有できること
   it 'allows two contacts to share a phone number' do
-    contact = create(:contact)
     create(
       :home_phone,
-      contact: contact,
       phone: '785-555-1234'
     )
     mobile_phone = build(
       :mobile_phone,
-      contact: contact,
       phone: '785-555-1234'
     )
     expect(mobile_phone).to be_valid
