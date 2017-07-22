@@ -56,9 +56,16 @@ describe ContactsController do
 
   describe 'GET #new' do
     # @contact に新しい連絡先を割り当てること
-    xit 'assigns a new Contact to @contact'
+    it 'assigns a new Contact to @contact' do
+      get :new
+      expect(assigns(:contact)).to be_a_new(Contact)
+    end
+
     # :new テンプレートを表示すること
-    xit 'renders the :new template'
+    it 'renders the :new template' do
+      get :new
+      expect(response).to render_template :new
+    end
   end
 
   describe 'GET #edit' do
