@@ -16,5 +16,9 @@ FactoryGirl.define do
         end
       end
     end
+
+    trait :invalid_contact do
+      firstname nil
+    end
   end
 end
