@@ -48,6 +48,10 @@ describe Contact do
     expect(contact.name).to eq 'John Doe'
   end
 
+  it 'has tree phone numbers' do
+    expect(create(:contact, :three_phones).phones.count).to eq(3)
+  end
+
   describe 'filter last name by letter' do
     before do
       @smith = build(
