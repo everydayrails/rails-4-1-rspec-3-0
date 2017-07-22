@@ -1,5 +1,7 @@
 FactoryGirl.define do
   factory :phone do
+    # one_has_many のoneを関連付ける
+    # contact { create(:contact) } と同じ
     association :contact
     phone { Faker::PhoneNumber.phone_number }
 
