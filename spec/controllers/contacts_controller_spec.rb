@@ -4,18 +4,36 @@ describe ContactsController do
   describe 'GET #index' do
     # params[:letter] がある場合
     context 'with params[:letter]' do
-      # 指定された文字で始まる連絡先を配列にまとめること
-      xit 'populates an array of contacts starting with the letter'
-      # :index テンプレートを表示すること
-      xit 'renders the :index template'
+      # 指定された文字で始まる連絡先を配列にまとめること
+      it 'populates an array of contacts starting with the letter' do
+        smith = create(:contact, lastname: 'Smith')
+        jones = create(:contact, lastname: 'Jones')
+        get :index, letter: 'S'
+        expect(assigns(:contacts)).to match_array([smith])
+      end
+
+      # :index テンプレートを表示すること
+      it 'renders the :index template' do
+        get :index, letter: 'S'
+        expect(response).to render_template :index
+      end
     end
 
     # params[:letter] がない場合
     describe 'without params[:letter]' do
       # 全ての連絡先を配列にまとめること
-      xit 'populates an array of all contacts'
+      it 'populates an array of all contacts' do
+        smith = create(:contact, lastname: 'Smith')
+        jones = create(:contact, lastname: 'Jones')
+        get :index
+        expect(assigns(:contacts)).to match_array([smith, jones])
+      end
+
       # :index テンプレートを表示すること
-      xit 'renders the :index template'
+      it 'renders the :index template' do
+        get :index
+        expect(response).to render_template :index
+      end
     end
   end
 
