@@ -47,4 +47,7 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
+
+  # ファクトリを簡単に呼び出せるよう、Factory Girlの構文をインクルードする
+  config.include FactoryGirl::Syntax::Methods
 end
